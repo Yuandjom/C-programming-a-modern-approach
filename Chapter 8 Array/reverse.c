@@ -6,7 +6,7 @@
 
 int main (void)
 {
-    int a[N],i ;
+    int a[N], i ;
 
     printf("Enter %d numbers: ", N);
     for(i = 0 ; i <N; i++){
