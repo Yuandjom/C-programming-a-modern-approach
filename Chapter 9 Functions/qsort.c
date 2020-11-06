@@ -5,7 +5,7 @@
 #define N 10 
 
 void quicksort(int a[], int low , int high);
-int split(int a[], int low , int high);
+int split(int a[], int low , int high); 
 
 int main (void)
 {
@@ -27,7 +27,7 @@ int main (void)
 
 void quicksort(int a[] , int low , int high)
 {
-    int middle;
+    int middle; //This is a recursive loop to get till one element which is the lowest one
     if (low >= high) return;
     middle = split(a , low , high);
     quicksort(a, low , middle -1);
@@ -36,13 +36,13 @@ void quicksort(int a[] , int low , int high)
 
 int split(int a[],int low ,int high)
 {
-    int part_element = a[low];
+    int part_element = a[low]; //taking the first element from array
     for (;;) {
         while(low< high && part_element <= a[high])
             high--;
         if(low >= high) 
             break;
-        a[low++] = a[high] ;
+        a[low++] = a[high] ; //This means assign a[high] to a[low] then low + 1
 
         while(low<high && a[low]<= part_element)
             low++;
@@ -50,7 +50,7 @@ int split(int a[],int low ,int high)
             break;
         a[high--] = a[low];
     }
-    a[high] = part_element;
+    a[high] = part_element; //putting back element in array
     return high;
 
 }
