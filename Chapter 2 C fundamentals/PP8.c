@@ -10,7 +10,7 @@ int main (void)
     printf("Enter interest rate: ");
     scanf("%f", &int_rate);
     printf("Enter monthly payment: ");
-    scanf("%f", & month_pay);
+    scanf("%f", &month_pay);
 
     balance = loan - (month_pay/100*(int_rate+100));
     printf("Balance remaining after first payment: %.2f", balance);
