@@ -12,8 +12,12 @@ int main (void)
     printf("Enter monthly payment: ");
     scanf("%f", &month_pay);
 
-    balance = loan - (month_pay/100*(int_rate+100));
-    printf("Balance remaining after first payment: %.2f", balance);
+    balance = loan/100*(100+int_rate/12) - month_pay;
+    printf("Balance remaining after first payment: $%.2f\n", balance);
+    balance = balance/100*(100+(int_rate/12) ) - month_pay;
+    printf("Balance remaining after second payment: $%.2f\n", balance);
+    balance = balance/100*(100+(int_rate/12) ) - month_pay;
+    printf("Balance remaining after third payment: $%0.2f\n" , balance);
 
 
 
