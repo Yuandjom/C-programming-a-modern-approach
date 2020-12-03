@@ -6,24 +6,25 @@ int main (void)
     int i , n , x = 24;
     char ch;
 
-    printf("This program prints a table of squares.\n ");
+    printf("This program prints a table of squares.\n");
     printf("Enter number of entries in table: ");
     scanf("%d", &n);
 
     for (i = 1 ; i <= n ; i++)
 
-        if (i*i > x){
-            printf("Press Enter to continue...");
+        if (i*i < x){
+            printf("%10d%10d\n", i ,i*i);
 
+        }else if(i*i > x){
+            printf("\nPress Enter to continue...");
             ch = getchar();
             while(ch != '\n'){
-            ch = getchar();
+                printf("Press Enter to continue...");                
             }
-            printf("%10d%10d\n", i ,i*i);
-        }else if(i*i < x)
-        {
-            printf("%10d%10d\n", i ,i*i);
+            printf("\n%10d%10d\n", i ,i*i);            
         }
+        
+
         
 
     return 0;
