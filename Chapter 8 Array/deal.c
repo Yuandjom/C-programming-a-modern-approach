@@ -16,15 +16,16 @@ int main (void)
     };
     const char suit_code[] = {'c','d','h','s'};
 
-    srand((unsigned) time(NULL));
+    srand((unsigned) time(NULL)); // prevent program from dealing with the same cards
 
     printf("Enter number of cards in hand: ");
     scanf("%d", &num_cards);
 
+
     printf("Your hand:");
     while(num_cards > 0){
-        suit = rand() % NUM_SUITS ;
-        rank = rand() % NUM_RANKS ;
+        suit = rand() % NUM_SUITS ; //rand() generates a random number , by using % can scale it to between 0 - 3 for suits 
+        rank = rand() % NUM_RANKS ;// for rank is scaled between 0-12 
         if(!in_hand[suit][rank]){
             in_hand[suit][rank] = true;
             num_cards--;
