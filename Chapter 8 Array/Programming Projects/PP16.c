@@ -16,10 +16,12 @@ int main (void)
     //first loop to get the word and num
     while ((ch = getchar()) != '\n')
     {
-        if (isalpha(ch))
+        if (isalpha(ch)) //is alphanumeric
         {
             letters[tolower(ch)]++;
         }
+        
+        
     }
     printf("Enter second word: ");
     //second loop to minus all the value of the alphabet
@@ -29,6 +31,7 @@ int main (void)
         {
             letters[tolower(ch)]--;
         }
+        
     }
     //third loop to check the whole array
     for (alphabet = 'a' ; alphabet <= 'z'; alphabet++)
