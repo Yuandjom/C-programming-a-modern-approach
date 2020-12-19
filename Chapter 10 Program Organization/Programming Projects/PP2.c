@@ -8,22 +8,23 @@
 #define NUM_CARDS 5
 
 //External Variables
-int num_in_rank[NUM_RANKS];
-int num_in_suit[NUM_SUITS];
+
 bool straight ,flush , four , three;
 int pairs; //can be 0 , 1 or 2 
 
 //prototypes
-void read_cards(void);
-void analyze_hand(void);
-void print_result(void);
+void read_cards(int num_in_rank[] , int num_in_suit[]);
+void analyze_hand(int num_in_rank[] , int num_in_suit[]);
+void print_result();
 
 //main : calls read_cards , analyse_hand , and print_result repeatedly
 int main(void)
 {
+    int num_in_rank[NUM_RANKS];
+    int num_in_suit[NUM_SUITS];
     for(;;){//forms the infinite loop
-        read_cards();
-        analyze_hand();
+        read_cards(num_in_rank , num_in_suit);
+        analyze_hand(num_in_rank , num_in_suit);
         print_result();
     }
 }
@@ -31,7 +32,7 @@ int main(void)
 //read cards: Reads the cards into the external variable num_in_rank and num_in_suit;
 //checks for bad cards and duplicate cards.
 
-void read_cards(void)
+void read_cards(int num_in_rank[] , int num_in_suit[])
 {
     bool card_exists[NUM_RANKS][NUM_SUITS];
     char ch , rank_ch , suit_ch ;
@@ -81,7 +82,7 @@ void read_cards(void)
             default:              bad_card = true;                     
         }
 
-        while ((ch = getchar() != '\n')){
+        while ((ch = getchar()) != '\n'){
             if (ch != ' ')
                 bad_card = true; // when the loop terminates , ch will contain the first nonblank character that getchar encounter
         }
@@ -103,7 +104,7 @@ void read_cards(void)
 // determines the number of pairs ; 
 // store the results into the external variables staright, flush , four three and paris.
 
-void analyze_hand(void)
+void analyze_hand(int num_in_rank[] , int num_in_suit[])
 {
     int num_consec = 0;
     int rank , suit;
@@ -120,7 +121,7 @@ void analyze_hand(void)
     
     //check for straights
     rank = 0 ;
-    while (num_in_rank[rank] == 0){ //checking occurances of number
+    while (num_in_rank[rank] == 0){
         rank ++;
     }
     for ( ; rank < NUM_RANKS && num_in_rank[rank] > 0 ; rank++){

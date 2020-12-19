@@ -6,17 +6,20 @@
 #define NUM_RANKS 13
 #define NUM_SUITS 4
 #define NUM_CARDS 5
+#define COL 2
 
 //External Variables
-int num_in_rank[NUM_RANKS];
-int num_in_suit[NUM_SUITS];
 bool straight ,flush , four , three;
 int pairs; //can be 0 , 1 or 2 
+int hand[NUM_CARDS][COL];
+
 
 //prototypes
 void read_cards(void);
 void analyze_hand(void);
 void print_result(void);
+bool duplicate_cards(int rank , int suit , int hand[NUM_CARDS][COL] ,int cards_read);
+
 
 //main : calls read_cards , analyse_hand , and print_result repeatedly
 int main(void)
@@ -33,21 +36,11 @@ int main(void)
 
 void read_cards(void)
 {
-    bool card_exists[NUM_RANKS][NUM_SUITS];
     char ch , rank_ch , suit_ch ;
     int rank , suit;
     bool bad_card;
     int cards_read = 0 ;
 
-    for(rank=0 ; rank < NUM_RANKS ; rank++){
-        num_in_rank[rank] = 0;
-        for (suit=0 ; suit< NUM_SUITS ; suit++)
-            card_exists[rank][suit] = false;
-    }
-
-    for (suit=0; suit<NUM_SUITS ; suit++)
-        num_in_suit[suit]=0;
-    
     while (cards_read < NUM_CARDS){
         bad_card = false;
 
@@ -87,17 +80,26 @@ void read_cards(void)
         }
         if (bad_card)
             printf("Bad card; ignored.\n");
-        else if (card_exists[rank][suit])
+        else if (duplicate_cards(rank , suit , hand , cards_read))
             printf("Duplicate card; ignored.\n");
         else{
-            num_in_rank[rank]++; //this means that eg num_in_rank[2] = 0 then num_in_rank[2] = 1 that is all , it is just adding the value of the array by 1 
-            num_in_suit[suit]++;
-            card_exists[rank][suit] = true; 
+            hand[cards_read][0] = rank;
+            hand[cards_read][1] = suit;
             cards_read++;
         }
     }
 }
-
+//duplicate card function to check for multiple cards
+bool duplicate_cards(int rank , int suit , int hand[NUM_CARDS][COL] ,int cards_read){
+    int i ;
+    for(i = 0 ; i < cards_read ; i++){
+        if (hand[i][0] == rank && hand[i][1] == suit)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 // analyze_ hand : 
 // Determines whether the hand contains a straight , a flush , four of a kind , and/or three of a king ;
 // determines the number of pairs ; 
@@ -106,24 +108,46 @@ void read_cards(void)
 void analyze_hand(void)
 {
     int num_consec = 0;
-    int rank , suit;
+    int rank , suit , i , j , min  , temp_rank , temp_suit , card , matches;
     straight = false;
     flush = false;
     four = false;
     three = false;
     pairs = 0 ;
 
+    //use selection sort
+    for ( i = 0; i < NUM_CARDS; i++)
+    {
+        min = i ;
+        for ( j = i + 1 ; j < NUM_CARDS ; i++)
+        {
+            if (hand[j][0] < hand[min][0] )
+            {
+                min = j;
+            } 
+        }
+        temp_rank = hand[i][0];
+        temp_suit = hand[i][1];
+        hand[i][0] = hand[min][0];
+        hand[i][1] = hand[min][1];
+        hand[min][0] = temp_rank;
+        hand[min][1] = temp_suit;
+    }
+    
     // check for flush
-    for(suit = 0 ; suit<NUM_SUITS; suit++ )
-        if(num_in_suit[suit] == NUM_CARDS)
-            flush = true;
+    for(suit = 1 ; suit < NUM_CARDS; suit++ ){
+        if(hand[suit][1] != hand[suit-1][1]){
+            flush = false;
+            break;
+        }
+        if(suit == 4){
+            flush = true ;
+        }
+    }
     
     //check for straights
-    rank = 0 ;
-    while (num_in_rank[rank] == 0){ //checking occurances of number
-        rank ++;
-    }
-    for ( ; rank < NUM_RANKS && num_in_rank[rank] > 0 ; rank++){
+    rank = 1 ;
+    for ( ; rank < NUM_RANKS && (hand[rank][0] - hand[rank - 1][0]) == 1 ; rank++){
         num_consec++; //if not consecutive , the num_consec wont reach till 5 
     }
     if (num_consec == NUM_CARDS){
@@ -131,13 +155,23 @@ void analyze_hand(void)
         return;
     }
     //check for 4 of a kind , 3 of a kind , and pairs
-    for (rank = 0; rank < NUM_RANKS; rank++)
+    for (i = 0; i< NUM_CARDS; i++)
     {
-        if (num_in_rank[rank]==4) four = true;
-        if (num_in_rank[rank] == 3) three = true;
-        if(num_in_rank[rank] == 2) pairs++;
+        matches = 0 ;
+        for(j = i + 1 ; j< NUM_CARDS ; j++){
+            if (hand[i][0] == hand[j][0])
+            {
+                matches++;
+            }
+            
+        }
+        
+        if (matches ==4) four = true;
+        if (matches == 3) three = true;
+        if(matches == 2) pairs++;
     }
 }
+
 
 // Print_results
 // Prints the classification of the hand , based on the values of the external variable straight , flush , four , three , and pairs
