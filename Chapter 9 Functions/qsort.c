@@ -38,14 +38,16 @@ int split(int a[],int low ,int high)
 {
     int part_element = a[low]; //taking the first element from array
     for (;;) {
-        while(low< high && part_element <= a[high])
+        while(low< high && part_element <= a[high]){
             high--;
+        }
         if(low >= high) 
             break;
         a[low++] = a[high] ; //This means assign a[high] to a[low] then low + 1
 
-        while(low<high && a[low]<= part_element)
+        while(low<high && a[low]<= part_element){
             low++;
+        }
         if(low>=high) 
             break;
         a[high--] = a[low];

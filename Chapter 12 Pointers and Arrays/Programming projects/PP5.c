@@ -3,7 +3,7 @@
 int main (void)
 {
     int i = 0 , j = 0 ;
-    char sentence[100] = {0} , ch , ex_point = '!' , question_mark = '?' , period = '.' , terminating_character ;
+    char sentence[100] = {0} , ch , ex_point = '!' , question_mark = '?' , period = '.' , terminating_character  , *first_pointer = sentence , *second_pointer = sentence ;
     //start w print
     printf("Enter a sentence: ");
     //Use a looop to read the characters one by one and store them in a one-dimensional char array
@@ -13,23 +13,23 @@ int main (void)
             terminating_character = ch;
             break;
         }
-        sentence[i++] = ch; //    for (i = 0; (c = getchar()) != '\n' && i < MAX_VALUE; i++) Btr version
+        *first_pointer++ = ch; //    for (i = 0; (c = getchar()) != '\n' && i < MAX_VALUE; i++) Btr version
 
     }
     //After the loop ends , i will have the last index of the character .
     //eg.This is c 
     // i wiil be 9 
     printf("Reversal of sentence: ");
-    while (i >= 0)
+    while (first_pointer >= sentence)
     {
         //scan for first spacing from the back 
         //need one more variable j
-        while(sentence[--i] != ' ' && i != 0){ //why is it --i not i-- MAJOR NOT SURE
+        while(*--first_pointer != ' ' && first_pointer != sentence){ //why is it --i not i-- MAJOR NOT SURE
         
         }//now the value of i is first space from back 
-        j = i == 0 ? 0 : i + 1;
-        while(sentence[j] != '\0' && sentence[j] != ' '){
-            putchar(sentence[j++]);
+        second_pointer = first_pointer == sentence ? sentence : first_pointer + 1;
+        while(*second_pointer != '\0' && *second_pointer != ' '){
+            putchar(*second_pointer++);
         }
         printf(" ");
     }

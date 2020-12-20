@@ -10,7 +10,7 @@ int read_line(char str[] , int n);
 
 int main (void)
 {
-    char reminders[MAX_REMIND][MSG_LEN+3];
+    char reminders[MAX_REMIND][MSG_LEN+3]; // +3 because day_str chars + null character at the string ?
     char day_str[3] , msg_str[MSG_LEN+1];
     int day , i , j , num_remind = 0;
 
@@ -36,7 +36,7 @@ int main (void)
         strcpy(reminders[i], day_str);
         strcat(reminders[i], msg_str);
 
-        num_remind++;
+        num_remind++; //to hold the max number of reminders
         }
         printf("\nDay reminder\n");
         for (i=0 ; i < num_remind; i++)
