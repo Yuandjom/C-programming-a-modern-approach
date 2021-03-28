@@ -13,7 +13,7 @@ int main (void)
     printf("Enter shift amount: (1-25): ");
     scanf("%d" , &num);
     printf("Encrypted message: ");
-    for(i = 0 ; message[i] != '\0' ; i++){
+    for(i = 0 ; message[i] != '\0' ; i++){ //the \0 means the int 0 stored in the array
         if (message[i] == ',' || message[i] == '.' || message[i] == ' '){
             putchar(message[i]);
         }
