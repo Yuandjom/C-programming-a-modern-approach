@@ -10,6 +10,7 @@ struct Node{
 struct Node* head; //global variable 
 void Insert(int data, int n);
 void Print();
+
 int main(void)
 {
     head = NULL ; //empty list
